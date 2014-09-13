@@ -68,6 +68,7 @@ svccfg import /root/freeswitch.xml
 
 # Clean up
 echo "* Cleaning up."
+pkg_delete -v gcc47 gmake
 rm -rf /root/*
 
 # Prepare image for provisioning
