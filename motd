@@ -1,0 +1,29 @@
+.=============================================================.
+|       _____          _             ____  ______  __         |
+|      |  ___|   _ ___(_) ___  _ __ |  _ \| __ ) \/ /         |
+|      | |_ | | | / __| |/ _ \| '_ \| |_) |  _ \\  /          |
+|      |  _|| |_| \__ \ | (_) | | | |  __/| |_) /  \          |
+|      |_|   \__,_|___/_|\___/|_| |_|_|   |____/_/\_\         |
+|                                                             |
+|  FreeSWITCH 1.4.7 ( 64bit)            http://fusionpbx.com  |
+.=============================================================.
+             SmartOS %brand% (%name% %version%)
+
+     - Please change PostgreSQL root password ( default = postgres / postgres )
+     - FreeSwitch Daemon can be restarted with : svcadm restart freeswitch
+     - FreeSwitch CLI tool: fs_cli
+     - Note: Config assumes you are running behind NAT on a Private Network
+
+       FusionPBX - Web Interface: https://%WEBUI_ADDRESS%
+       FusionPBX - Postgres   DB: fusionpbx
+       FusionPBX - Postgres USER: fusionpbxadmin
+       FusionPBX - Postgres PASS: %FUS_PW%
+
+Note: Enter above Database Settings in Web UI to Complete the Install.
+
+>> AFTER << you have completed database setup in the web interface - run:
+
+                        "svcadm restart freeswitch"
+
+          <------ Feedback @trentster abn.me/fusionpbx ------>
+  

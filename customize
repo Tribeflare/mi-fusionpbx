@@ -1,0 +1,74 @@
+#!/usr/bin/bash
+#
+# Put customizations to your image in this file.
+
+PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
+
+# Exit if any commands fail
+set -o errexit
+
+# Ensure we have updated standard packages
+echo "* Updating standard packages.";
+pkg_delete -v nodejs smtools zoneinit
+pkg_add -v nodejs smtools zoneinit
+
+# Configuring image specific packages
+echo "* Configuring image specific packages.";
+
+mkdir -p /usr/local/freeswitch
+mkdir -p /var/www
+mkdir /etc/freeswitch
+
+
+# build freeswitch in /root because /root gets cleaned up automatically
+cd /root
+wget http://files.freeswitch.org/freeswitch-1.4.7.tar.gz
+tar -xvzf freeswitch-1.4.7.tar.gz
+cd freeswitch-1.4.7
+
+cp /root/freeswitch-modules.conf modules.conf
+
+./configure -C --prefix=/usr/local/freeswitch --enable-64 --enable-optimization LDFLAGS='-L/opt/local/lib -Wl,-rpath=/opt/local/lib' CFLAGS='-I/opt/local/include' --enable-core-pgsql-support
+make
+make install
+make cd-sounds-install
+make cd-moh-install
+
+ln -s /usr/local/freeswitch/bin/fs_cli /opt/local/bin/fs_cli
+
+cd /var/www
+svn checkout http://fusionpbx.googlecode.com/svn/trunk/fusionpbx fusionpbx
+chown -R www:www /var/www
+chown -R www:www /usr/local/freeswitch
+chown -R www:www /etc/freeswitch
+
+mkdir -p /opt/local/etc/nginx/sites-enabled
+mkdir -p /opt/local/etc/nginx/sites-available
+
+cp /root/nginx.conf /opt/local/etc/nginx/nginx.conf
+cp /root/php.ini /opt/local/etc/php.ini
+
+mkdir -p /var/db/ssl/certs
+
+chown www:www /opt/local/etc/nginx/sites-enabled
+chown www:www /opt/local/etc/nginx/sites-available
+chown www:www /var/db/ssl
+
+ln -s /opt/local/etc/nginx/sites-available/fusion-ssl.conf /opt/local/etc/nginx/sites-enabled/
+
+touch /usr/local/freeswitch/conf/dialplan/empty.xml
+touch /usr/local/freeswitch/conf/directory/empty.xml
+touch /usr/local/freeswitch/conf/sip_profiles/internal.xml
+touch /usr/local/freeswitch/conf/sip_profiles/internal-ipv6.xml
+touch /usr/local/freeswitch/conf/sip_profiles/external.xml
+touch /usr/local/freeswitch/conf/dialplan/public/empty.xml
+touch /usr/local/freeswitch/conf/directory/default/empty.xml
+
+svccfg import /root/freeswitch.xml
+
+# Clean up
+echo "* Cleaning up."
+rm -rf /root/*
+
+# Prepare image for provisioning
+sm-prepare-image -y

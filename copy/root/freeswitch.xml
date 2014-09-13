@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'>
+<service_bundle type='manifest' name='export'>
+  <service name='application/freeswitch' type='service' version='0'>
+    <create_default_instance enabled='true'/>
+    <dependency name='dep0' grouping='require_all' restart_on='error' type='service'>
+      <service_fmri value='svc:/milestone/multi-user:default'/>
+    </dependency>
+    <exec_method name='start' type='method' exec='/usr/local/freeswitch/bin/freeswitch -rp -nc %{switches}' timeout_seconds='20'>
+      <method_context>
+        <method_credential user='www' group='www'/>
+      </method_context>
+    </exec_method>
+    <exec_method name='stop' type='method' exec='/usr/local/freeswitch/bin/freeswitch -stop' timeout_seconds='120'/>
+    <property_group name="application" type="application">
+      <propval name="switches" type="astring" value="" />
+    </property_group>
+    <template>
+      <common_name>
+        <loctext xml:lang='C'>FreeSwitch</loctext>
+      </common_name>
+    </template>
+  </service>
+</service_bundle>
