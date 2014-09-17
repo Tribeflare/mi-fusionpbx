@@ -1,6 +1,8 @@
 
 log "generating ssl certs"
 /opt/local/etc/nginx/sslgen.sh
+chown -R root:root /var/db/ssl
+chmod -R 600 /var/db/ssl/certs
 
 log "enabling http services"
 svcadm enable nginx

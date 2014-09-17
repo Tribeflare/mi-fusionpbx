@@ -2,14 +2,13 @@
 
 
 ## You want to change this like:
-DOMAIN="fusion"
+DOMAIN=$1
 
-
-if [[ "$DOMAIN" == "mysite1.net" ]]
+if [ ! -z $1 ]
 then
-    echo "Please change your domain!"
-    exit 1
-
+    DOMAIN=$1
+else
+    DOMAIN=fusionpbx
 fi
 
 fail_if_error() {
@@ -30,7 +29,7 @@ O=FusionPBX
 localityName=Melbourne
 commonName=$DOMAIN
 organizationalUnitName=Infrastructure
-emailAddress=domains@fusionpbx.com
+emailAddress=domains@domains.local
 "
 
 export PASSPHRASE=$(head -c 128 /dev/random  | uuencode - | grep -v "^end" | tr "\n" "d")
