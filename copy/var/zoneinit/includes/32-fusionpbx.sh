@@ -12,6 +12,7 @@ svcadm enable memcached
 log "enabling freeswitch"
 svcadm enable freeswitch
 
+
 log "Creating FusionPBX DB"
 
 FUS_PW=$(od -An -N4 -x /dev/random | head -1 | tr -d ' ');
@@ -22,6 +23,16 @@ echo "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpbxadmin;" >> /tmp/fus
 
 log "Injecting FusionPBX SQL"
 sudo PGPASSWORD="postgres" -u postgres /opt/local/bin/psql -w -U postgres < /tmp/fus.sql
+
+
+log "Creating Freeswitch DB"
+
+echo "CREATE DATABASE freeswitch;" >> /tmp/fsw.sql
+echo "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbxadmin;" >> /tmp/fsw.sql
+
+log "Injecting Freeswitch SQL"
+sudo PGPASSWORD="postgres" -u postgres /opt/local/bin/psql -w -U postgres < /tmp/fsw.sql
+
 
 log "determine the webui address for the motd"
 

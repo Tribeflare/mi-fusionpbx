@@ -22,9 +22,9 @@ mkdir /etc/freeswitch
 
 # build freeswitch in /root because /root gets cleaned up automatically
 cd /root
-wget http://files.freeswitch.org/freeswitch-1.4.7.tar.gz
-tar -xvzf freeswitch-1.4.7.tar.gz
-cd freeswitch-1.4.7
+wget http://files.freeswitch.org/freeswitch-1.4.12.tar.gz
+tar -xvzf freeswitch-1.4.12.tar.gz
+cd freeswitch-1.4.12
 
 cp /root/freeswitch-modules.conf modules.conf
 

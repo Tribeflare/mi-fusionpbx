@@ -1,7 +1,7 @@
 name="fusionpbx"
 organization="Onyx"
 brand="Instance"
-version="3.6.1"
+version="3.6.2"
 description="FusionPBX FreeSwitch Voip - Pre-configured Full Voip PBX Server"
 homepage="http://abn.me/fusionpbx"
 users="root admin pgsql"

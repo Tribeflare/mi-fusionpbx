@@ -1,4 +1,9 @@
-# Changelog for mytestimage
+# Changelog
+
+* 19 October 2014
+-fusionpbx 3.6.2
+-freeswitch 1.4.12
+-creating postgres db for freeswitch
 
 fusionpbx-3.6.1
 * adding version and auto db script
